@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { LayoutDashboard, Users, LogOut, PackageSearch, PlusSquare, PlusCircle, Bell, Settings, Activity, Moon, Sun } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { useAuth } from '../lib/AuthContext';
 import logo from '../assets/logo.png';
 
 const Sidebar = ({ currentView, onViewChange }) => {
+  const { profile, signOut } = useAuth();
   const [activeSuppliers, setActiveSuppliers] = useState(0);
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -23,20 +25,24 @@ const Sidebar = ({ currentView, onViewChange }) => {
   }, [isDark]);
 
   useEffect(() => {
+    if (!profile?.farmacia_id) return;
+
     async function getStats() {
       const { count } = await supabase
         .from('fornecedores')
         .select('*', { count: 'exact', head: true })
-        .eq('status', 'ativo');
+        .eq('status', 'ativo')
+        .eq('farmacia_id', profile.farmacia_id);
       setActiveSuppliers(count || 0);
     }
     getStats();
-  }, []);
+  }, [profile]);
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'cotar', label: 'Nova Cotação', icon: PlusCircle },
     { id: 'fornecedores', label: 'Fornecedores', icon: Users, badge: activeSuppliers },
+    { id: 'configuracoes', label: 'Configurações', icon: Settings },
   ];
 
   return (
@@ -80,14 +86,21 @@ const Sidebar = ({ currentView, onViewChange }) => {
           ))}
         </nav>
 
-        {/* Bottom Actions: Theme Toggle */}
-        <div className="pt-6 border-t border-[var(--border)]">
+        {/* Bottom Actions: Theme Toggle & Logout */}
+        <div className="pt-6 border-t border-[var(--border)] space-y-2">
           <button 
             onClick={() => setIsDark(!isDark)}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-[var(--text-muted)] hover:bg-[var(--accent)] hover:text-[#0EA5E9] transition-all"
           >
             {isDark ? <Sun size={20} /> : <Moon size={20} />}
             <span className="text-sm font-semibold">{isDark ? 'Modo Claro' : 'Modo Noite'}</span>
+          </button>
+          <button 
+            onClick={signOut}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-red-400 hover:bg-red-500/10 transition-all"
+          >
+            <LogOut size={20} />
+            <span className="text-sm font-semibold">Sair</span>
           </button>
         </div>
       </div>

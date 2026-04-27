@@ -7,9 +7,11 @@ import {
   MousePointer, LayoutGrid, Pill, Thermometer, Bath, RefreshCcw
 } from 'lucide-react'
 import { supabase } from '../lib/supabase'
+import { useAuth } from '../lib/AuthContext'
 import { triggerWebhook, generateSupplierLink } from '../lib/webhook'
 
 export default function QuoteInput({ onProcessComplete, onBack }) {
+  const { profile } = useAuth()
   const [text, setText] = useState('')
   const [items, setItems] = useState([])
   const [liveParsed, setLiveParsed] = useState([])
@@ -61,7 +63,10 @@ export default function QuoteInput({ onProcessComplete, onBack }) {
       // Create master record
       const { data: master, error: mError } = await supabase
         .from('cotacoes_mestre')
-        .insert({ status: 'AGUARDANDO_FORNECEDORES' })
+        .insert({ 
+          status: 'AGUARDANDO_FORNECEDORES',
+          farmacia_id: profile.farmacia_id 
+        })
         .select()
         .single()
       
@@ -75,13 +80,21 @@ export default function QuoteInput({ onProcessComplete, onBack }) {
          setStatusText(`Processando item: ${item.query}...`)
          const { data: prodData, error: pError } = await supabase
            .from('produtos')
-           .insert({ nome: item.query, ean: item.query })
+           .insert({ 
+             nome: item.query, 
+             ean: item.query,
+             farmacia_id: profile.farmacia_id 
+           })
            .select()
            .single()
          
          let prodId;
          if (pError && pError.code === '23505') {
-            const { data: existing } = await supabase.from('produtos').select('id').eq('ean', item.query).single();
+            const { data: existing } = await supabase.from('produtos')
+              .select('id')
+              .eq('ean', item.query)
+              .eq('farmacia_id', profile.farmacia_id)
+              .single();
             if(existing) prodId = existing.id;
          } else if (prodData) {
             prodId = prodData.id;
@@ -107,7 +120,10 @@ export default function QuoteInput({ onProcessComplete, onBack }) {
       setProgress(40)
       setStatusText('Sincronizando Rede de Distribuição...')
 
-      const { data: suppliers } = await supabase.from('fornecedores').select('*').eq('status', 'ativo')
+      const { data: suppliers } = await supabase.from('fornecedores')
+        .select('*')
+        .eq('status', 'ativo')
+        .eq('farmacia_id', profile.farmacia_id)
       
       if (suppliers && suppliers.length > 0) {
         const stepSize = 60 / suppliers.length
@@ -120,14 +136,14 @@ export default function QuoteInput({ onProcessComplete, onBack }) {
           }).select().single();
 
           if (!tError && tData) {
-             const link = generateSupplierLink(tData.token);
+             const link = generateSupplierLink(master.id, tData.token);
              await triggerWebhook({ 
                 cotacao_id: master.id, 
                 fornecedor_id: s.id, 
                 link: link,
                 fornecedor_nome: s.nome,
                 whatsapp: s.whatsapp
-             });
+             }, profile?.farmacias?.webhook_cotacao);
           }
           setProgress(40 + (idx + 1) * stepSize)
         }

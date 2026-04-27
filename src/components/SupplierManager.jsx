@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, MapPin, Phone, Mail, Globe, Star, Trash2, Edit, ExternalLink, ShieldCheck, Zap, MoreVertical, X, Check, Loader2, Users, LayoutGrid, Power, PowerOff } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { useAuth } from '../lib/AuthContext';
 
 const SupplierManager = () => {
    const [suppliers, setSuppliers] = useState([]);
@@ -8,6 +9,7 @@ const SupplierManager = () => {
    const [error, setError] = useState(null);
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [searchTerm, setSearchTerm] = useState('');
+   const { profile } = useAuth();
    const [newSupplier, setNewSupplier] = useState({
       nome: '',
       email: '',
@@ -42,7 +44,8 @@ const SupplierManager = () => {
             nome: newSupplier.nome,
             email: newSupplier.email,
             whatsapp: newSupplier.contato,
-            status: newSupplier.status
+            status: newSupplier.status,
+            farmacia_id: profile?.farmacia_id
          };
 
          const { data, error } = await supabase

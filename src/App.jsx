@@ -5,10 +5,17 @@ import QuoteInput from './components/QuoteInput'
 import ComparisonView from './components/ComparisonView'
 import SupplierPortal from './components/SupplierPortal'
 import SupplierManager from './components/SupplierManager'
+import Login from './components/Login'
+import { useAuth } from './lib/AuthContext'
+import { Loader2 } from 'lucide-react'
+import Settings from './components/Settings'
+import BottomNav from './components/BottomNav'
+import logo from './assets/logo.png'
 
 function App() {
-  const [view, setView] = useState('dashboard') // 'dashboard', 'cotar', 'comparison', 'supplier', 'fornecedores'
+  const [view, setView] = useState('dashboard')
   const [selectedQuoteId, setSelectedQuoteId] = useState(null)
+  const { user, profile, loading } = useAuth()
   
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -17,6 +24,22 @@ function App() {
       setView('supplier')
     }
   }, [])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[var(--bg-main)]">
+        <Loader2 className="animate-spin text-blue-500" size={48} />
+      </div>
+    )
+  }
+
+  // Se for um fornecedor acessando via link direto (token), não precisa de login
+  if (view === 'supplier') return <SupplierPortal />
+
+  // Se não estiver logado ou não tiver perfil/farmácia, mostra tela de login/onboarding
+  if (!user || !profile?.farmacia_id) {
+    return <Login />
+  }
 
   const handleViewChange = (newView) => {
     setView(newView)
@@ -30,17 +53,14 @@ function App() {
         return <QuoteInput onBack={() => setView('dashboard')} onProcessComplete={(id) => { setSelectedQuoteId(id); setView('comparison'); }} />
       case 'comparison':
         return <ComparisonView quoteId={selectedQuoteId} onBack={() => setView('dashboard')} />
-      case 'supplier':
-        return <SupplierPortal />
       case 'fornecedores':
         return <SupplierManager />
+      case 'configuracoes':
+        return <Settings />
       default:
         return <Dashboard />
     }
   }
-
-  // Supplier portal is standalone
-  if (view === 'supplier') return <SupplierPortal />
 
   return (
     <div className="app-container">
@@ -48,10 +68,33 @@ function App() {
         <Sidebar currentView={view} onViewChange={handleViewChange} />
         <main className="main-content">
           <div className="content-container">
+             <div className="mb-8 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                   {/* Logo para Mobile */}
+                   <div className="block md:hidden">
+                      <img 
+                        src={logo} 
+                        alt="Alice Farma" 
+                        className="h-10 w-auto transition-all duration-300 dark:invert" 
+                      />
+                   </div>
+
+                   {/* Initials para Desktop (já que tem logo no sidebar) */}
+                   <div className="hidden md:flex w-10 h-10 rounded-xl bg-blue-500/10 items-center justify-center text-blue-500">
+                      <span className="text-xs font-black">{profile?.farmacias?.nome?.substring(0,2).toUpperCase() || 'AF'}</span>
+                   </div>
+
+                   <div>
+                      <p className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest">Unidade Ativa</p>
+                      <h2 className="text-sm font-bold text-[var(--text-main)]">{profile?.farmacias?.nome || 'Alice Farma'}</h2>
+                   </div>
+                </div>
+             </div>
             {renderView()}
           </div>
         </main>
       </div>
+      <BottomNav currentView={view} onViewChange={handleViewChange} />
     </div>
   )
 }

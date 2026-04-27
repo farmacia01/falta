@@ -1,61 +1,54 @@
-const WEBHOOK_URL = import.meta.env.VITE_WEBHOOK_URL;
-const WEBHOOK_PEDIDO_URL = import.meta.env.VITE_WEBHOOK_PEDIDO_URL;
+// Função centralizada para disparar webhooks n8n
+// Agora aceita a URL configurada pela farmácia como parâmetro
 
-/**
- * Envia os dados da cotação para o n8n
- * @param {object} payload - Dados formatados da cotação
- */
-export async function triggerWebhook(payload) {
+export async function triggerWebhook(payload, customUrl = null) {
+  const WEBHOOK_URL = customUrl || import.meta.env.VITE_WEBHOOK_URL;
+
   if (!WEBHOOK_URL) {
-    console.error('Webhook URL missing');
-    return { success: false, error: 'Configuração ausente' };
+    console.error('Webhook URL missing (Global and Custom)');
+    return { success: false, error: 'URL do Webhook não configurada' };
   }
 
   try {
     const response = await fetch(WEBHOOK_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
     });
 
-    return { success: response.ok };
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return { success: true };
   } catch (error) {
     console.error('Error triggering Webhook:', error);
-    return { success: false, error };
+    return { success: false, error: error.message };
   }
 }
 
-/**
- * Envia os dados do pedido finalizado para o n8n
- * @param {object} payload - Dados do pedido (ex: { quoteId })
- */
-export async function triggerPedidoWebhook(payload) {
+export async function triggerPedidoWebhook(payload, customUrl = null) {
+  const WEBHOOK_PEDIDO_URL = customUrl || import.meta.env.VITE_WEBHOOK_PEDIDO_URL;
+
   if (!WEBHOOK_PEDIDO_URL) {
-    console.error('Webhook Pedido URL missing');
-    return { success: false, error: 'Configuração ausente' };
+    console.error('Webhook Pedido URL missing (Global and Custom)');
+    return { success: false, error: 'URL do Webhook de Pedido não configurada' };
   }
 
   try {
     const response = await fetch(WEBHOOK_PEDIDO_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
     });
 
-    return { success: response.ok };
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return { success: true };
   } catch (error) {
     console.error('Error triggering Pedido Webhook:', error);
-    return { success: false, error };
+    return { success: false, error: error.message };
   }
 }
 
-/**
- * Gera o link de cotação para o fornecedor
- */
-export function generateSupplierLink(token) {
-  return `${window.location.origin}${window.location.pathname}?token=${token}`;
+// Helper para gerar o link do fornecedor (usado no payload do webhook)
+export function generateSupplierLink(cotacaoId, token) {
+  const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
+  return `${baseUrl}/?token=${token}`;
 }
