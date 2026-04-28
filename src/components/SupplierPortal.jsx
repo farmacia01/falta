@@ -135,7 +135,7 @@ export default function SupplierPortal() {
           </div>
           <h2 className="text-3xl font-black text-[var(--text-main)] mb-4">Ofertas Enviadas!</h2>
           <p className="text-[var(--text-muted)] font-semibold leading-relaxed">
-            Seus preços foram criptografados e enviados para a Alice AI. O comprador será notificado instantaneamente.
+            Seus preços foram criptografados e enviados para a Alice. O comprador será notificado instantaneamente.
           </p>
         </div>
       </div>
@@ -158,7 +158,7 @@ export default function SupplierPortal() {
               Criptografando Acesso
            </p>
            <p className="text-[8px] font-bold text-[var(--text-muted)] uppercase tracking-widest mt-2">
-              Alice AI • Ambiente Seguro
+              Alice • Ambiente Seguro
            </p>
         </div>
       </div>
@@ -171,7 +171,7 @@ export default function SupplierPortal() {
       {/* Top Banner - Privacy Info */}
       <div className="bg-[#0EA5E9] text-white py-3 px-4 text-center">
          <p className="text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2">
-            <ShieldCheck size={14} /> Ambiente Seguro • Alice AI Engine v2.0
+            <ShieldCheck size={14} /> Ambiente Seguro • Alice Engine v2.0
          </p>
       </div>
 
@@ -261,7 +261,7 @@ export default function SupplierPortal() {
                  )}
                </button>
                <p className="text-[7px] md:text-[8px] text-center font-bold text-[var(--text-muted)] uppercase tracking-[0.15em] mt-3 opacity-60">
-                  Ambiente Seguro e Criptografado pela Alice AI
+                  Ambiente Seguro e Criptografado pela Alice
                </p>
            </div>
         </div>

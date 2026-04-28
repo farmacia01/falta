@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }) => {
         </div>
         <div className="mt-8 text-center">
            <p className="text-[10px] font-black text-[var(--primary)] uppercase tracking-[0.4em] animate-pulse">
-              Iniciando Alice AI
+              Iniciando Alice
            </p>
            <p className="text-[8px] font-bold text-[var(--text-muted)] uppercase tracking-widest mt-2">
               Sincronizando Dados de Saúde
