@@ -225,16 +225,10 @@ export default function SupplierPortal() {
                 </div>
               </div>
 
-              {/* Info Note for Short Date */}
-              {isShortDate(expirations[item.id]) && (
-                 <div className="px-6 py-3 bg-red-500/10 border-t border-red-500/20 flex items-center gap-2">
-                    <AlertCircle size={14} className="text-red-500" />
-                    <p className="text-[9px] font-bold text-red-500 uppercase tracking-tighter">Atenção: Validade inferior a 6 meses pode reduzir o valor de compra.</p>
-                 </div>
-              )}
             </div>
           ))}
         </div>
+
 
         {/* Modern Floating Submit Footer */}
         <div className="fixed bottom-0 left-0 right-0 px-4 pb-6 pt-4 bg-gradient-to-t from-[var(--bg-main)] via-[var(--bg-main)]/90 to-transparent z-[100]">
