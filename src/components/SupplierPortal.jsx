@@ -236,26 +236,29 @@ export default function SupplierPortal() {
           ))}
         </div>
 
-        {/* Floating Submit Footer */}
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-xl px-6 z-[100]">
-           <button 
-              onClick={handleSubmit} 
-              disabled={loading} 
-              className="w-full h-16 md:h-20 bg-[#0EA5E9] hover:bg-[#0284C7] text-white rounded-[2rem] font-black text-base md:text-lg uppercase tracking-[0.2em] shadow-2xl shadow-[#0EA5E9]/40 flex items-center justify-center gap-4 transition-all active:scale-[0.98] disabled:opacity-50"
-            >
-              {loading ? (
-                <div className="w-6 h-6 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
-              ) : (
-                <>
-                  <Send size={22} />
-                  Enviar Cotação para Alice
-                </>
-              )}
-            </button>
-            <p className="text-[8px] text-center font-bold text-[var(--text-muted)] uppercase tracking-widest mt-4">
-               Ao enviar, você concorda que os preços são finais para esta cotação.
-            </p>
+        {/* Modern Floating Submit Footer */}
+        <div className="fixed bottom-0 left-0 right-0 px-4 pb-6 pt-4 bg-gradient-to-t from-[var(--bg-main)] via-[var(--bg-main)]/90 to-transparent z-[100]">
+           <div className="max-w-2xl mx-auto">
+              <button 
+                 onClick={handleSubmit} 
+                 disabled={loading} 
+                 className="w-full h-14 md:h-16 bg-[#0EA5E9] hover:bg-[#0284C7] text-white rounded-2xl font-black text-xs md:text-sm uppercase tracking-[0.2em] shadow-xl shadow-[#0EA5E9]/30 flex items-center justify-center gap-3 transition-all active:scale-[0.98] disabled:opacity-50"
+               >
+                 {loading ? (
+                   <div className="w-5 h-5 border-3 border-white/20 border-t-white rounded-full animate-spin"></div>
+                 ) : (
+                   <>
+                     <Send size={18} strokeWidth={2.5} />
+                     Enviar Cotação Agora
+                   </>
+                 )}
+               </button>
+               <p className="text-[7px] md:text-[8px] text-center font-bold text-[var(--text-muted)] uppercase tracking-[0.15em] mt-3 opacity-60">
+                  Ambiente Seguro e Criptografado pela Alice AI
+               </p>
+           </div>
         </div>
+
       </div>
     </div>
   )
