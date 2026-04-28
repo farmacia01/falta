@@ -144,14 +144,27 @@ export default function SupplierPortal() {
 
   if (loading && items.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[var(--bg-main)]">
-        <div className="text-center space-y-4">
-          <div className="w-16 h-16 border-4 border-[#0EA5E9]/20 border-t-[#0EA5E9] rounded-full animate-spin mx-auto"></div>
-          <p className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-[0.3em]">Criptografando Acesso...</p>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--bg-main)]">
+        <div className="relative">
+           {/* Outer Ring */}
+           <div className="w-16 h-16 border-4 border-[var(--primary)]/10 rounded-full"></div>
+           {/* Spinning Ring */}
+           <div className="absolute top-0 left-0 w-16 h-16 border-4 border-t-[var(--primary)] border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+           {/* Inner Pulse */}
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-[var(--primary)]/20 rounded-full animate-pulse"></div>
+        </div>
+        <div className="mt-8 text-center px-6">
+           <p className="text-[10px] font-black text-[var(--primary)] uppercase tracking-[0.4em] animate-pulse">
+              Criptografando Acesso
+           </p>
+           <p className="text-[8px] font-bold text-[var(--text-muted)] uppercase tracking-widest mt-2">
+              Alice AI • Ambiente Seguro
+           </p>
         </div>
       </div>
     )
   }
+
 
   return (
     <div className="min-h-screen bg-[var(--bg-main)] pb-32">

@@ -66,6 +66,28 @@ export const AuthProvider = ({ children }) => {
     };
   }, []);
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--bg-main)]">
+        <div className="relative">
+           {/* Outer Ring */}
+           <div className="w-20 h-20 border-4 border-[var(--primary)]/10 rounded-full"></div>
+           {/* Spinning Ring */}
+           <div className="absolute top-0 left-0 w-20 h-20 border-4 border-t-[var(--primary)] border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+           {/* Inner Pulse */}
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-[var(--primary)]/20 rounded-full animate-pulse"></div>
+        </div>
+        <div className="mt-8 text-center">
+           <p className="text-[10px] font-black text-[var(--primary)] uppercase tracking-[0.4em] animate-pulse">
+              Iniciando Alice AI
+           </p>
+           <p className="text-[8px] font-bold text-[var(--text-muted)] uppercase tracking-widest mt-2">
+              Sincronizando Dados de Saúde
+           </p>
+        </div>
+      </div>
+    );
+  }
 
   const signOut = () => supabase.auth.signOut();
 
