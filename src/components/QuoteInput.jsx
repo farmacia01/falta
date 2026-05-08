@@ -331,8 +331,8 @@ export default function QuoteInput({ onProcessComplete, onBack }) {
               </div>
            </div>
            
-           <div className="overflow-hidden rounded-2xl border border-[var(--border)] mb-8">
-              <table className="modern-table">
+           <div className="overflow-x-auto rounded-2xl border border-[var(--border)] mb-8">
+              <table className="modern-table min-w-[560px] sm:min-w-0">
                 <thead className="bg-[var(--accent)]">
                   <tr>
                     <th>Produto / Descrição</th>

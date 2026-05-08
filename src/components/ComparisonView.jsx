@@ -186,7 +186,7 @@ export default function ComparisonView({ quoteId, onBack }) {
   }
 
   return (
-    <div className="space-y-8 animate-fade-in pb-24">
+    <div className="space-y-8 animate-fade-in pb-36 md:pb-24">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-[var(--border)]">
         <div className="space-y-2">
           <button onClick={onBack} className="flex items-center gap-2 text-[var(--text-muted)] hover:text-[#0EA5E9] font-bold text-[10px] uppercase tracking-[0.2em] transition-all">
@@ -389,7 +389,7 @@ export default function ComparisonView({ quoteId, onBack }) {
       </div>
 
       {/* Floating Submit Footer */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-4xl px-4 z-[90]">
+      <div className="fixed bottom-[calc(5rem+env(safe-area-inset-bottom,0px))] md:bottom-6 left-1/2 -translate-x-1/2 w-full max-w-4xl px-4 z-[90]">
         <div className="flex items-center justify-between bg-[var(--bg-card)]/80 backdrop-blur-xl border border-[var(--border)] p-4 md:p-6 rounded-[2rem] shadow-2xl shadow-black/5">
            <div className="flex items-center gap-4">
               <div className="hidden sm:flex -space-x-3">

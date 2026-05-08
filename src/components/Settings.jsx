@@ -49,7 +49,7 @@ export default function Settings() {
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto animate-fade-in">
+    <div className="p-4 sm:p-6 md:p-8 max-w-4xl mx-auto animate-fade-in">
       <div className="mb-10">
         <h1 className="text-3xl font-black text-[var(--text-main)] mb-2">Configurações da Unidade</h1>
         <p className="text-[var(--text-muted)] font-medium">Configure as automações n8n individuais para esta farmácia.</p>
@@ -67,7 +67,7 @@ export default function Settings() {
 
         <div className="grid gap-6">
           {/* Card Webhook Cotação */}
-          <div className="bg-[var(--bg-card)] p-8 rounded-[2rem] border border-[var(--border)] shadow-xl relative overflow-hidden group">
+          <div className="bg-[var(--bg-card)] p-5 sm:p-6 md:p-8 rounded-[2rem] border border-[var(--border)] shadow-xl relative overflow-hidden group">
             <div className="absolute -right-4 -top-4 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity">
               <Globe size={160} />
             </div>
@@ -97,7 +97,7 @@ export default function Settings() {
           </div>
 
           {/* Card Webhook Pedido */}
-          <div className="bg-[var(--bg-card)] p-8 rounded-[2rem] border border-[var(--border)] shadow-xl relative overflow-hidden group">
+          <div className="bg-[var(--bg-card)] p-5 sm:p-6 md:p-8 rounded-[2rem] border border-[var(--border)] shadow-xl relative overflow-hidden group">
             <div className="absolute -right-4 -top-4 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity">
               <ShoppingCart size={160} />
             </div>
@@ -130,7 +130,7 @@ export default function Settings() {
         <div className="flex justify-end pt-4">
           <button 
             disabled={saving}
-            className="px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-blue-600/20 transition-all flex items-center gap-3 active:scale-[0.98] disabled:opacity-50"
+            className="w-full sm:w-auto justify-center px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-blue-600/20 transition-all flex items-center gap-3 active:scale-[0.98] disabled:opacity-50"
           >
             {saving ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
             Salvar Configurações

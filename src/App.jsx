@@ -16,6 +16,8 @@ function App() {
   const [view, setView] = useState('dashboard')
   const [selectedQuoteId, setSelectedQuoteId] = useState(null)
   const { user, profile, loading } = useAuth()
+  const pharmacyName = profile?.farmacias?.nome
+  const pharmacyInitials = (pharmacyName?.substring(0, 2) || 'AF').toUpperCase()
   
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -69,7 +71,7 @@ function App() {
         <main className="main-content">
           <div className="content-container">
              <div className="mb-8 flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
+                <div className="flex min-w-0 items-center gap-3">
                    {/* Logo para Mobile */}
                    <div className="block md:hidden">
                       <img 
@@ -81,12 +83,12 @@ function App() {
 
                    {/* Initials para Desktop (já que tem logo no sidebar) */}
                    <div className="hidden md:flex w-10 h-10 rounded-xl bg-blue-500/10 items-center justify-center text-blue-500">
-                      <span className="text-xs font-black">{profile?.farmacias?.nome?.substring(0,2).toUpperCase() || 'AF'}</span>
+                      <span className="text-xs font-black">{pharmacyInitials}</span>
                    </div>
 
-                   <div>
+                   <div className="min-w-0">
                       <p className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest">Unidade Ativa</p>
-                      <h2 className="text-sm font-bold text-[var(--text-main)]">{profile?.farmacias?.nome || 'Alice Farma'}</h2>
+                      <h2 className="truncate text-sm font-bold text-[var(--text-main)]">{profile?.farmacias?.nome || 'Alice Farma'}</h2>
                    </div>
                 </div>
              </div>

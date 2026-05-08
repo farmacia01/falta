@@ -46,8 +46,6 @@ const Sidebar = ({ currentView, onViewChange }) => {
   ];
 
   return (
-    <>
-      {/* Desktop Sidebar */}
       <div className="desktop-sidebar sidebar bg-[var(--bg-sidebar)] border-r border-[var(--border)] flex flex-col p-6 h-full transition-colors duration-300">
         {/* Branding */}
         <div className="flex items-center gap-3 mb-10 px-1">
@@ -104,21 +102,6 @@ const Sidebar = ({ currentView, onViewChange }) => {
           </button>
         </div>
       </div>
-
-      {/* Mobile Bottom Navigation */}
-      <nav className="mobile-bottom-nav border-t border-[var(--border)] bg-[var(--bg-card)]">
-        {menuItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => onViewChange(item.id)}
-            className={`mobile-nav-btn ${currentView === item.id ? 'active' : ''}`}
-          >
-            <item.icon size={22} />
-            <span>{item.label}</span>
-          </button>
-        ))}
-      </nav>
-    </>
   );
 };
 

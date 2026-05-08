@@ -12,9 +12,15 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>,
 )
 
-// Registro do PWA
+// Em desenvolvimento local, evita cache do SW causando tela branca em outros dispositivos.
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration failed: ', err));
-  });
+  if (import.meta.env.PROD) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration failed: ', err));
+    });
+  } else {
+    navigator.serviceWorker.getRegistrations().then((regs) => {
+      regs.forEach((reg) => reg.unregister());
+    });
+  }
 }

@@ -79,7 +79,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[var(--bg-main)] p-6">
+    <div className="min-h-screen flex items-center justify-center bg-[var(--bg-main)] p-4 sm:p-6">
       <div className="w-full max-w-md animate-fade-in">
         <div className="text-center mb-10 space-y-4">
           <div className="flex justify-center mb-6">
@@ -92,7 +92,7 @@ export default function Login() {
           <p className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.3em]">Inteligência em Cotações Farmacêuticas</p>
         </div>
 
-        <div className="bg-[var(--bg-card)] p-8 md:p-10 rounded-[2.5rem] border border-[var(--border)] shadow-2xl relative overflow-hidden">
+        <div className="bg-[var(--bg-card)] p-6 sm:p-8 md:p-10 rounded-[2.5rem] border border-[var(--border)] shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 opacity-5">
              <Building2 size={120} />
           </div>
@@ -169,7 +169,7 @@ export default function Login() {
           </div>
         </div>
 
-        <div className="mt-12 flex items-center justify-center gap-6 opacity-30">
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 opacity-30">
            <div className="flex items-center gap-2">
               <ShieldCheck size={14} />
               <span className="text-[9px] font-bold uppercase tracking-widest">Criptografia Ponta-a-Ponta</span>
