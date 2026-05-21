@@ -32,10 +32,8 @@ export default function SupplierPortal() {
   async function fetchByToken(t) {
     try {
       const { data: tokenData, error: tError } = await supabase
-        .from('tokens_acesso_fornecedores')
-        .select('cotacao_id, fornecedor_id, expires_at, cotacoes_mestre(farmacia_id), fornecedores(farmacia_id)')
-        .eq('token', t)
-        .single()
+        .rpc('validar_token_fornecedor', { p_token: t })
+        .maybeSingle()
       
       if (tError || !tokenData) {
         console.error('Invalid token:', tError)
@@ -44,18 +42,8 @@ export default function SupplierPortal() {
         return
       }
 
-      // Check if token is expired
-      if (tokenData.expires_at && new Date(tokenData.expires_at) < new Date()) {
+      if (tokenData.status === 'expired') {
         setError('expired')
-        setLoading(false)
-        return
-      }
-
-      const quoteTenantId = tokenData?.cotacoes_mestre?.farmacia_id
-      const supplierTenantId = tokenData?.fornecedores?.farmacia_id
-      if (!quoteTenantId || !supplierTenantId || quoteTenantId !== supplierTenantId) {
-        console.error('Invalid tenant relation for token')
-        setError('invalid_token')
         setLoading(false)
         return
       }
