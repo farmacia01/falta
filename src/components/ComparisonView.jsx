@@ -389,7 +389,7 @@ export default function ComparisonView({ quoteId, onBack }) {
                       {item.respostas.find(r => r.e_vencedor) ? (
                         <div className="space-y-1">
                           <div className="text-lg font-black text-green-500 leading-none">
-                            R$ {item.respostas.find(r => r.e_vencedor).preco_ofertado.toFixed(2)}
+                            R$ {Number(item.respostas.find(r => r.e_vencedor)?.preco_ofertado || 0).toFixed(2)}
                           </div>
                           <div className="flex items-center justify-end gap-1.5 text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-tight">
                              <Truck size={10} className="text-[#0EA5E9]" />
@@ -498,15 +498,15 @@ export default function ComparisonView({ quoteId, onBack }) {
                                     <>
                                        <div className="flex items-center gap-2">
                                           <div className="w-6 h-6 rounded-md bg-[var(--accent)] flex items-center justify-center text-[8px] font-black text-[#0EA5E9]">
-                                             {suppliers.find(s => s.id === winner.fornecedor_id)?.nome.substring(0, 2)}
+                                             {(suppliers.find(s => s.id === winner.fornecedor_id)?.nome || '??').substring(0, 2)}
                                           </div>
                                           <span className="text-[10px] md:text-xs font-bold text-[var(--text-main)] truncate">
-                                             {suppliers.find(s => s.id === winner.fornecedor_id)?.nome}
+                                             {suppliers.find(s => s.id === winner.fornecedor_id)?.nome || 'Fornecedor'}
                                           </span>
                                        </div>
                                        <div className="flex items-baseline gap-1 text-green-500 font-black">
                                           <span className="text-[9px]">R$</span>
-                                          <span className="text-base md:text-lg">{winner.preco_ofertado.toFixed(2)}</span>
+                                          <span className="text-base md:text-lg">{Number(winner.preco_ofertado || 0).toFixed(2)}</span>
                                        </div>
                                     </>
                                  ) : (

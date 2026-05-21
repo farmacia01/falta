@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }) => {
     );
   }
 
-  const signOut = () => supabase.auth.signOut();
+  const signOut = () => supabase?.auth.signOut();
 
   return (
     <AuthContext.Provider value={{ user, profile, loading, signOut }}>

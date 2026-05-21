@@ -99,7 +99,7 @@ const SupplierManager = () => {
    };
 
    const filteredSuppliers = suppliers.filter(s => 
-      s.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (s.nome || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       s.cidade?.toLowerCase().includes(searchTerm.toLowerCase())
    );
 
@@ -151,7 +151,7 @@ const SupplierManager = () => {
                   <div key={s.id} className={`card flex flex-col h-full hover:border-[#0EA5E9]/40 hover:shadow-2xl transition-all group ${s.status === 'inativo' ? 'opacity-60 grayscale-[0.5]' : ''} !p-6`}>
                      <div className="flex items-start justify-between mb-6">
                         <div className={`w-14 h-14 border border-[var(--border)] rounded-2xl flex items-center justify-center text-xl font-black shadow-xl group-hover:scale-110 transition-transform ${s.status === 'ativo' ? 'bg-[var(--bg-main)] text-[#0EA5E9]' : 'bg-[var(--accent)] text-[var(--text-muted)]'}`}>
-                           {s.nome.charAt(0).toUpperCase()}
+                           {(s.nome || '?').charAt(0).toUpperCase()}
                         </div>
                         <div className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest flex items-center gap-2 ${
                            s.status === 'ativo' ? 'bg-green-500/10 text-green-500' : 'bg-slate-500/10 text-[var(--text-muted)]'
@@ -162,7 +162,7 @@ const SupplierManager = () => {
                      </div>
 
                      <div className="space-y-1 mb-6 flex-1">
-                        <h3 className="text-lg font-extrabold text-[var(--text-main)] tracking-tight group-hover:text-[#0EA5E9] transition-colors line-clamp-1">{s.nome}</h3>
+                        <h3 className="text-lg font-extrabold text-[var(--text-main)] tracking-tight group-hover:text-[#0EA5E9] transition-colors line-clamp-1">{s.nome || 'Fornecedor sem nome'}</h3>
                      </div>
 
                      <div className="space-y-3 py-6 border-t border-[var(--border)]">
